@@ -15,7 +15,7 @@ interface LayerControlPanelProps {
 function LayerControlPanel({ layers, onLayerChange }: LayerControlPanelProps) {
   return (
     <Box>
-      <Typography variant="h6">Layer Controls</Typography>
+      <Typography variant="h6">Layers</Typography>
       <FormGroup>
         {/* for each layer in map: control if layer is checked, then set visible true, display the layers text next to the checkbox */}
         {layers.map((layer) => (

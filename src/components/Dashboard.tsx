@@ -20,7 +20,7 @@ function Dashboard({ onSelectMap, isDataLoaded }: DashboardProps) {
   return (
     <Box sx={{ padding: 4 }}>
       <Typography variant="h2" component="h1" gutterBottom textAlign="center">
-        Interactive Historical Perspectives on Hans Kelsen
+        Geo Perspektiven
       </Typography>
       <Grid container spacing={4} justifyContent="center">
         <Grid>
@@ -28,7 +28,7 @@ function Dashboard({ onSelectMap, isDataLoaded }: DashboardProps) {
           <Card sx={{ maxWidth: 345 }}>
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Map Project One
+                Hans Kelsen
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Project discripion, can be a little bit longer maybe this long
@@ -44,7 +44,7 @@ function Dashboard({ onSelectMap, isDataLoaded }: DashboardProps) {
                 disabled={!isDataLoaded}
               >
                 {/* here should go the button text, but we whant it to be dynamic*/}
-                {isDataLoaded ? "Open Map" : "Loading..."}
+                {isDataLoaded ? "Go" : "Loading..."}
               </Button>
             </CardActions>
           </Card>

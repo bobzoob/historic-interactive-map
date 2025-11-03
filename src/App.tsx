@@ -4,9 +4,10 @@ import Sidebar from "./components/Sidebar";
 import MapContainer from "./components/MapContainer";
 import { useState, useEffect } from "react";
 import Dashboard from "./components/Dashboard";
-
 import type { HistoricalFeatureCollection } from "./types/geojson";
 
+// types
+export type TimeRange = [number, number]; // export= makes is accessible, somewhat like protected in java
 // views, the application can be in
 type View = "dashboard" | "map";
 
@@ -26,8 +27,11 @@ function App() {
     useState<HistoricalFeatureCollection | null>(null); // initialized as 0
 
   const [layerConfig, setLayerConfig] = useState<LayerConfig[]>([
-    { id: "territories-1", name: "Historical Teritories", visible: true },
+    { id: "territories-1", name: "Territories", visible: true },
   ]);
+
+  // for the timeline
+  const [timeRange, setTimeRange] = useState<TimeRange>([1800, 1960]);
 
   // handel status of layers
   // this is a 3 part arrow function:
@@ -44,6 +48,11 @@ function App() {
         return layer;
       })
     );
+  };
+
+  // handle timeline changes
+  const handleTimeChange = (newRange: TimeRange) => {
+    setTimeRange(newRange);
   };
 
   useEffect(() => {
@@ -95,7 +104,12 @@ function App() {
             />
           ) : (
             // otherwise we show the MapContainer component
-            <MapContainer data={geoJsonData} layers={layerConfig} />
+            <MapContainer
+              data={geoJsonData}
+              layers={layerConfig}
+              timeRange={timeRange}
+              onTimeChange={handleTimeChange}
+            />
           )}
         </Box>
       </Stack>

@@ -11,7 +11,7 @@ interface SidebarProps {
 function Sidebar({ onNavigateHome, layers, onLayerChange }: SidebarProps) {
   return (
     <Box sx={{ padding: 2 }}>
-      <Typography variant="h6">Navigation</Typography>
+      <Typography variant="h6">Menu</Typography>
       <Button variant="text" onClick={onNavigateHome}>
         Home
       </Button>
