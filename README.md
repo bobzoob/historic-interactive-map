@@ -1,6 +1,6 @@
 # Interactive Historical Perspectives Map
 
-An interactive, multilayered web application with a timeline to visualize different perspectives on historical developments. This project allows users to explore historical data on a dynamic map, toggle different data layers, and filter the information based on a selected time range.
+This project is the beta version of a webapplication that provides multiple maps with interactive features, like timelines and layers, to visualize different perspectives on historical developments. The application allows users to explore historical data through a dynamic visualization. The user can toggle different data layers, and filter the information based on a selected time range.
 
 ## Live Demo
 
