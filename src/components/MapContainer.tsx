@@ -58,7 +58,7 @@ function MapContainer({
     <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
       <LeafletMapContainer
         // initial geographical center
-        center={[51.505, -0.09]}
+        center={[48.2082, 16.3738]}
         zoom={11}
         // to let map fill up container 100%
         style={{ height: "100%", width: "100%" }}

@@ -27,7 +27,7 @@ function App() {
     useState<HistoricalFeatureCollection | null>(null); // initialized as 0
 
   const [layerConfig, setLayerConfig] = useState<LayerConfig[]>([
-    { id: "territories-1", name: "Territories", visible: true },
+    { id: "territories-1", name: "Quarters", visible: true },
   ]);
 
   // for the timeline
