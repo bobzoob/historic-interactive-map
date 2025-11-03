@@ -31,7 +31,25 @@ function App() {
   ]);
 
   // for the timeline
-  const [timeRange, setTimeRange] = useState<TimeRange>([1800, 1960]);
+
+  //when releasing the mouse update:
+  const [committedTimeRange, setCommittedTimeRange] = useState<TimeRange>([
+    1800, 1900,
+  ]);
+
+  //update with every mouse movement
+  const [liveTimeRange, setLiveTimeRange] = useState<TimeRange>([1800, 1960]);
+
+  // update both when drag if finished
+  const handleTimeChangeCommitted = (newRange: TimeRange) => {
+    setCommittedTimeRange(newRange);
+    setLiveTimeRange(newRange);
+  };
+
+  // update oly live ui, during drag
+  const handleTimeChangeLive = (newRange: TimeRange) => {
+    setLiveTimeRange(newRange);
+  };
 
   // handel status of layers
   // this is a 3 part arrow function:
@@ -48,11 +66,6 @@ function App() {
         return layer;
       })
     );
-  };
-
-  // handle timeline changes
-  const handleTimeChange = (newRange: TimeRange) => {
-    setTimeRange(newRange);
   };
 
   useEffect(() => {
@@ -107,8 +120,11 @@ function App() {
             <MapContainer
               data={geoJsonData}
               layers={layerConfig}
-              timeRange={timeRange}
-              onTimeChange={handleTimeChange}
+              timeRange={committedTimeRange}
+              liveTimeRange={liveTimeRange} // live range
+              // handlers
+              onTimeChangeCommitted={handleTimeChangeCommitted}
+              onTimeChangeLive={handleTimeChangeLive}
             />
           )}
         </Box>

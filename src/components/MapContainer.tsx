@@ -10,14 +10,20 @@ interface MapContainerProps {
   data: HistoricalFeatureCollection | null;
   layers: LayerConfig[];
   timeRange: TimeRange;
-  onTimeChange: (nweRage: TimeRange) => void; // function that takes 1 arg of type TimeRange
+  liveTimeRange: TimeRange;
+  // handler for when the drag finishes
+  onTimeChangeCommitted: (newRange: TimeRange) => void;
+  // handler for during the drag
+  onTimeChangeLive: (newRange: TimeRange) => void;
 }
 
 function MapContainer({
   data,
   layers,
   timeRange,
-  onTimeChange,
+  liveTimeRange,
+  onTimeChangeCommitted,
+  onTimeChangeLive,
 }: MapContainerProps) {
   // console.log("MapContainer received data:", data);
 
@@ -70,10 +76,14 @@ function MapContainer({
         />
         {/* this is called conditional rendering: only when all true, its redered */}
         {territoriesLayer?.visible && filteredData && (
-          <GeoJSONLayer data={filteredData} />
+          <GeoJSONLayer data={filteredData} timeRangeKey={timeRange} />
         )}
       </LeafletMapContainer>
-      <TimelineControl range={timeRange} onTimeChange={onTimeChange} />
+      <TimelineControl
+        range={liveTimeRange} // UI uses LIVE range
+        onTimeChange={onTimeChangeLive} // live drag handler
+        onTimeChangeCommitted={onTimeChangeCommitted} // committed handler
+      />
     </Box>
   );
 }

@@ -5,9 +5,13 @@ import { useState, useEffect } from "react";
 interface TimelineControlProps {
   range: TimeRange;
   onTimeChange: (newRange: TimeRange) => void;
+  onTimeChangeCommitted: (newRange: TimeRange) => void;
 }
-
-function TimelineControl({ range, onTimeChange }: TimelineControlProps) {
+function TimelineControl({
+  range,
+  onTimeChange,
+  onTimeChangeCommitted,
+}: TimelineControlProps) {
   const minYear = 1800;
   const maxYear = 1960;
 
@@ -50,7 +54,7 @@ function TimelineControl({ range, onTimeChange }: TimelineControlProps) {
       </Typography>
       <Slider
         // slider value default stting
-        value={localRange}
+        value={range}
         min={minYear}
         max={maxYear}
         // we can only select whole years
@@ -59,10 +63,13 @@ function TimelineControl({ range, onTimeChange }: TimelineControlProps) {
         valueLabelDisplay="auto"
         // aria labelled by attribute: all interactiv elements must have a accessible name, here the name can not be retrieved from its tags, like button etc.
         aria-labelledby="range-slider"
+        // onChange updates the LIVE state on every movement
+        onChange={(_event, newValue) => {
+          onTimeChange(newValue as TimeRange);
+        }}
+        // onChangeCommitted updates the FILTERING state on release
         onChangeCommitted={(_event, newValue) => {
-          // handler receives the new value from slider
-          // then we call the onTimeChange function, which is passed down from App.tsx
-          setLocalRange(newValue as TimeRange);
+          onTimeChangeCommitted(newValue as TimeRange);
         }}
       />
     </Box>
