@@ -1,8 +1,5 @@
 import { GeoJSON } from "react-leaflet";
-import type {
-  HistoricalFeature,
-  HistoricalFeatureCollection,
-} from "../types/geojson";
+import type { HistoricalFeatureCollection } from "../types/geojson";
 import type { Layer } from "leaflet";
 import type { TimeRange } from "../App";
 

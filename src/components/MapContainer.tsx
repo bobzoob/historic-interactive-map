@@ -30,7 +30,7 @@ function MapContainer({
   // console.log("MapContainer received data:", data);
 
   // we must find the layers config, only get data and render, if visible true
-  const territoriesLayer = layers.find((layer) => layer.id === "territories-1");
+  // const territoriesLayer = layers.find((layer) => layer.id === "territories-1");
   //
   const filteredData = useMemo(() => {
     if (!data) return null;
