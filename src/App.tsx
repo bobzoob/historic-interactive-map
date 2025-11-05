@@ -11,11 +11,13 @@ export type TimeRange = [number, number]; // export= makes is accessible, somewh
 // views, the application can be in
 type View = "dashboard" | "map";
 
-// this interface is exported and can therefor be importet be others!
+// this interface use keyword exported and can therefor be importet be others!
 export interface LayerConfig {
   id: string;
   name: string;
   visible: boolean;
+  type: "polygon" | "point" | "line"; // ** add new data types here **
+  source: string; // the path of the data, aka: /my-data.geojson
 }
 
 function App() {
@@ -23,11 +25,36 @@ function App() {
 
   const [currentView, setCurrentView] = useState<View>("dashboard"); // dashboard is default
   //  for the data
-  const [geoJsonData, setGeoJsonData] =
-    useState<HistoricalFeatureCollection | null>(null); // initialized as 0
+  // i had a very troubling error here, because i added a linebreak after the = while this is not alloud in js. took me a while to get there
+  const [geoJsonData, setGeoJsonData] = useState<Record<
+    string,
+    HistoricalFeatureCollection
+  > | null>(null);
 
   const [layerConfig, setLayerConfig] = useState<LayerConfig[]>([
-    { id: "territories-1", name: "Quarters", visible: true },
+    // ** add path here **
+    {
+      id: "territories-1",
+      name: "some historical territories",
+      visible: true,
+      type: "polygon",
+      source: "/territories-data.geojson",
+    },
+    {
+      id: "event-1",
+      name: "important Event",
+      visible: true,
+      type: "point",
+      source: "/events-data.geojson",
+    },
+
+    {
+      id: "letters-1",
+      name: "Kelsen letters",
+      visible: false,
+      type: "line",
+      source: "/letters-data.geojson",
+    },
   ]);
 
   // for the timeline
@@ -71,19 +98,25 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/dummy-data.geojson"); // data can not be in same folder as the app, vite-related problem
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json(); // .json() fetches and parses in one step
-        setGeoJsonData(data as HistoricalFeatureCollection);
+        // we create an array of fetch promises based on the layer config
+        const promises = layerConfig.map((layer) =>
+          fetch(layer.source).then((res) => res.json())
+        );
+        const responses = await Promise.all(promises);
+
+        // then build the data map dynamically
+        const dataMap: Record<string, HistoricalFeatureCollection> = {};
+        layerConfig.forEach((layer, index) => {
+          dataMap[layer.id] = responses[index] as HistoricalFeatureCollection;
+        });
+
+        setGeoJsonData(dataMap);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching GeoJSON data:", error);
       }
     };
-
     fetchData();
-  }, []); // The empty dependency array [] means this effect runs only ONCE.
+  }, []); // The empty dependency array [] means this effect runs only ONCE and needs updating, when layerConfig changes
 
   return (
     // box will occupy the full viewport heigh; flexbox for layout.

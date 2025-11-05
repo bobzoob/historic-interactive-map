@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Letter: Kelsen to Renner (1919)",
+        "description": "From Vienna to Prague, discussing early constitutional ideas.",
+        "startDate": "1919-04-10",
+        "endDate": "1919-04-10",
+        "sender": "Hans Kelsen",
+        "recipient": "Karl Renner"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [16.3738, 48.2082],
+          [14.4378, 50.0755]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Letter: Kelsen to Adler (1926)",
+        "description": "From Cologne to Vienna, regarding legal positivism.",
+        "startDate": "1926-08-22",
+        "endDate": "1926-08-22",
+        "sender": "Hans Kelsen",
+        "recipient": "Max Adler"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [6.9603, 50.9375],
+          [16.3738, 48.2082]
+        ]
+      }
+    }
+  ]
+}

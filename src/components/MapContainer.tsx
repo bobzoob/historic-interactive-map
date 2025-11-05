@@ -5,9 +5,11 @@ import GeoJSONLayer from "./GeoJSONLayer";
 import type { LayerConfig, TimeRange } from "../App";
 import TimelineControl from "./TimelineControl";
 import { useMemo } from "react"; // this is for performance issues
+import PointLayer from "./PointLayer";
+import ArrowLayer from "./ArrowLayer";
 
 interface MapContainerProps {
-  data: HistoricalFeatureCollection | null;
+  data: Record<string, HistoricalFeatureCollection> | null;
   layers: LayerConfig[];
   timeRange: TimeRange;
   liveTimeRange: TimeRange;
@@ -33,29 +35,29 @@ function MapContainer({
   const filteredData = useMemo(() => {
     if (!data) return null;
 
-    // GeoJSON FeatureCollection
-    const newFeatureCollection: HistoricalFeatureCollection = {
-      type: "FeatureCollection",
-      features: data.features.filter((feature) => {
-        // parse correctly for comparison
-        const featureStartYear = new Date(
-          feature.properties.startDate
-        ).getFullYear();
-        const featureEndYear = new Date(
-          feature.properties.endDate
-        ).getFullYear();
-        const [selectedStartYear, selectedEndYear] = timeRange;
+    const newFilteredData: Record<string, HistoricalFeatureCollection> = {};
 
-        // conditions:
-        // start must be < slider-end AND end must be > slider-start
-        return (
-          featureStartYear <= selectedEndYear &&
-          featureEndYear >= selectedStartYear
-        );
-      }),
-    };
-
-    return newFeatureCollection;
+    // here we loop over each entry in the layer data ("territories-1", "events-1", etc.)
+    for (const layerId in data) {
+      const featureCollection = data[layerId];
+      newFilteredData[layerId] = {
+        type: "FeatureCollection",
+        features: featureCollection.features.filter((feature) => {
+          const featureStartYear = new Date(
+            feature.properties.startDate
+          ).getFullYear();
+          const featureEndYear = new Date(
+            feature.properties.endDate
+          ).getFullYear();
+          const [selectedStartYear, selectedEndYear] = timeRange;
+          return (
+            featureStartYear <= selectedEndYear &&
+            featureEndYear >= selectedStartYear
+          );
+        }),
+      };
+    }
+    return newFilteredData;
   }, [data, timeRange]); // dependency array= React (useMemo) will rerender ONLY if data or timeRange change
 
   return (
@@ -74,10 +76,39 @@ function MapContainer({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {/* this is called conditional rendering: only when all true, its redered */}
-        {territoriesLayer?.visible && filteredData && (
-          <GeoJSONLayer data={filteredData} timeRangeKey={timeRange} />
-        )}
+        {filteredData &&
+          layers.map((layer) => {
+            if (!layer.visible) {
+              return null;
+            }
+            // key is on the component itself
+            switch (layer.type) {
+              // ** add new component here **
+              // case "battle":
+              //   return <BattleLayer key={layer.id} data={filteredData[layer.id]} />;
+              case "polygon":
+                return (
+                  <GeoJSONLayer
+                    key={layer.id} // key is essential for React rendering
+                    data={filteredData[layer.id]}
+                    timeRangeKey={timeRange}
+                  />
+                );
+              case "point":
+                return (
+                  <PointLayer key={layer.id} data={filteredData[layer.id]} />
+                );
+              case "line":
+                return (
+                  <ArrowLayer key={layer.id} data={filteredData[layer.id]} />
+                );
+
+              default:
+                // handle unknown types
+                console.warn("received unknown layer type: ${layer.type}");
+                return null;
+            }
+          })}
       </LeafletMapContainer>
       <TimelineControl
         range={liveTimeRange} // UI uses LIVE range

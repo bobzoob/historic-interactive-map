@@ -1,0 +1,18 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hans Kelsen visits Vienna",
+        "description": "Legal scholar Hans Kelsen lived and worked in Vienna during this period and came up with stuff.",
+        "startDate": "1890-01-01",
+        "endDate": "1924-12-31"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [16.3738, 48.2082]
+      }
+    }
+  ]
+}
