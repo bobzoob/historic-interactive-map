@@ -18,6 +18,7 @@ export interface LayerConfig {
   visible: boolean;
   type: "polygon" | "point" | "line"; // ** add new data types here **
   source: string; // the path of the data, aka: /my-data.geojson
+  showAllTooltips: boolean;
 }
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
       visible: true,
       type: "polygon",
       source: "/territories-data.geojson",
+      showAllTooltips: false,
     },
     {
       id: "event-1",
@@ -46,14 +48,16 @@ function App() {
       visible: true,
       type: "point",
       source: "/events-data.geojson",
+      showAllTooltips: false,
     },
 
     {
       id: "letters-1",
       name: "Kelsen letters",
-      visible: false,
+      visible: true,
       type: "line",
       source: "/letters-data.geojson",
+      showAllTooltips: false,
     },
   ]);
 
@@ -61,7 +65,7 @@ function App() {
 
   //when releasing the mouse update:
   const [committedTimeRange, setCommittedTimeRange] = useState<TimeRange>([
-    1800, 1900,
+    1800, 1930,
   ]);
 
   //update with every mouse movement
@@ -89,6 +93,18 @@ function App() {
       prevConfig.map((layer) => {
         if (layer.id === layerId) {
           return { ...layer, visible: isVisible };
+        }
+        return layer;
+      })
+    );
+  };
+
+  // track status of showAllTooltip
+  const handleLayerTooltipChange = (layerId: string, showAll: boolean) => {
+    setLayerConfig((prevConfig) =>
+      prevConfig.map((layer) => {
+        if (layer.id === layerId) {
+          return { ...layer, showAllTooltips: showAll };
         }
         return layer;
       })
@@ -137,6 +153,7 @@ function App() {
             onNavigateHome={() => setCurrentView("dashboard")}
             layers={layerConfig}
             onLayerChange={handleLayerConfigChange}
+            onLayerTooltipChange={handleLayerTooltipChange}
           />
         </Box>
 

@@ -1,37 +1,35 @@
-import DecoratedPolyline from "./DecoratedPolyline";
-import { Tooltip, Polyline } from "react-leaflet"; // We still need Polyline for the tooltip
+import ArrowPolyline from "./ArrowPolyline";
 import type { HistoricalFeatureCollection } from "../types/geojson";
 import L from "leaflet";
 
 interface ArrowLayerProps {
   data: HistoricalFeatureCollection;
+  showAllTooltips: boolean;
 }
 
-function ArrowLayer({ data }: ArrowLayerProps) {
+function ArrowLayer({ data, showAllTooltips }: ArrowLayerProps) {
   return (
     <>
       {data.features.map((feature, index) => {
-        if (feature.geometry.type === "LineString") {
-          const positions = feature.geometry.coordinates.map(
-            (coord) => [coord[1], coord[0]] as L.LatLngTuple
-          );
-
-          // We render TWO things for each feature:
-          // 1. The invisible Polyline with the Tooltip
-          // 2. The DecoratedPolyline which draws the visible line and arrowhead
-          return (
-            <div key={index}>
-              <Polyline positions={positions} color="transparent">
-                <Tooltip>
-                  <strong>{feature.properties.name}</strong>
-                  <p>{feature.properties.description}</p>
-                </Tooltip>
-              </Polyline>
-              <DecoratedPolyline positions={positions} />
-            </div>
-          );
+        // typescript often causes errors when it cant be sure that we only process the correct type, here: LineString
+        if (feature.geometry.type !== "LineString") {
+          return null;
         }
-        return null;
+
+        // swap coordinates! GEOjson and leaflet are opposite here
+        const positions = feature.geometry.coordinates.map(
+          (coord) => [coord[1], coord[0]] as L.LatLngTuple
+        );
+
+        return (
+          <ArrowPolyline
+            key={index}
+            positions={positions}
+            title={feature.properties.name}
+            text={feature.properties.description}
+            showAllTooltips={showAllTooltips}
+          />
+        );
       })}
     </>
   );

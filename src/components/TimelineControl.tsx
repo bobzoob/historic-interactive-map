@@ -1,6 +1,5 @@
 import { Box, Slider, Typography } from "@mui/material";
 import type { TimeRange } from "../App";
-import { useState, useEffect } from "react";
 
 interface TimelineControlProps {
   range: TimeRange;
@@ -14,25 +13,6 @@ function TimelineControl({
 }: TimelineControlProps) {
   const minYear = 1800;
   const maxYear = 1960;
-
-  // the slider-rendering-on-change problem
-  // get sliders local state at present, passed down by TimeRange and sync it with the maybe change
-  const [localRange, setLocalRange] = useState<TimeRange>(range);
-  useEffect(() => {
-    setLocalRange(range);
-  }, [range]);
-
-  //  debounce logic:
-  useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      // after 200ms of no changes to localRange call the parents onTimeChange function
-      onTimeChange(localRange);
-    }, 200);
-    // clean up function, new timer everytime
-    return () => {
-      clearTimeout(debounceTimer);
-    };
-  }, [localRange, onTimeChange]);
 
   return (
     <Box

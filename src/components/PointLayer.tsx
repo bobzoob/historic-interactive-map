@@ -1,4 +1,4 @@
-import { Marker, Tooltip } from "react-leaflet";
+import { Marker, Popup, Tooltip } from "react-leaflet";
 import type { HistoricalFeatureCollection } from "../types/geojson";
 import type { LatLngExpression } from "leaflet";
 
@@ -8,9 +8,10 @@ import type { LatLngExpression } from "leaflet";
 
 interface PointLayerProps {
   data: HistoricalFeatureCollection;
+  showAllTooltips: boolean;
 }
 
-function PointLayer({ data }: PointLayerProps) {
+function PointLayer({ data, showAllTooltips }: PointLayerProps) {
   return (
     <>
       {data.features.map((feature) => {
@@ -24,10 +25,14 @@ function PointLayer({ data }: PointLayerProps) {
 
         return (
           <Marker key={feature.properties.name} position={position}>
-            <Tooltip permanent>
+            <Tooltip permanent={showAllTooltips}>
+              <strong>{feature.properties.name}</strong>
+            </Tooltip>
+
+            <Popup>
               <strong>{feature.properties.name}</strong>
               <p>{feature.properties.description}</p>
-            </Tooltip>
+            </Popup>
           </Marker>
         );
       })}

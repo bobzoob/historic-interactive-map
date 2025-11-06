@@ -4,20 +4,24 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Quarter 1",
-        "description": "Time between 1801 and 1840.",
-        "startDate": "1801-01-01",
-        "endDate": "1840-12-31"
+        "name": "Vienna",
+        "description": "A more accurate, but simplified, polygon representing the city of Vienna.",
+        "startDate": "1854-01-01",
+        "endDate": "1925-12-31"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [16.25, 48.15],
-            [16.5, 48.15],
-            [16.5, 48.25],
-            [16.25, 48.25],
-            [16.25, 48.15]
+            [16.182, 48.208],
+            [16.248, 48.323],
+            [16.373, 48.333],
+            [16.477, 48.262],
+            [16.576, 48.205],
+            [16.533, 48.138],
+            [16.373, 48.12],
+            [16.293, 48.142],
+            [16.182, 48.208]
           ]
         ]
       }
@@ -25,20 +29,29 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "Quarter 2",
-        "description": "Time between 1841 und 1880.",
-        "startDate": "1841-01-01",
-        "endDate": "1880-12-31"
+        "name": "Austria",
+        "description": "A more accurate, but simplified, polygon representing the country of Austria.",
+        "startDate": "1900-01-01",
+        "endDate": "1910-12-31"
       },
       "geometry": {
         "type": "Polygon",
         "coordinates": [
           [
-            [16.15, 48.1],
-            [16.4, 48.1],
-            [16.4, 48.2],
-            [16.15, 48.2],
-            [16.15, 48.1]
+            [9.531, 47.044],
+            [10.535, 46.759],
+            [12.018, 46.755],
+            [13.835, 46.473],
+            [15.018, 46.612],
+            [16.035, 47.812],
+            [16.968, 48.012],
+            [16.968, 48.998],
+            [15.018, 48.998],
+            [13.535, 48.612],
+            [13.535, 48.212],
+            [12.518, 47.812],
+            [9.531, 47.525],
+            [9.531, 47.044]
           ]
         ]
       }
