@@ -11,7 +11,6 @@ export type TimeRange = [number, number]; // export= makes is accessible, somewh
 // views, the application can be in
 type View = "dashboard" | "map";
 
-// this interface use keyword exported and can therefor be importet be others!
 export interface LayerConfig {
   id: string;
   name: string;
@@ -132,17 +131,17 @@ function App() {
       }
     };
     fetchData();
-  }, []); // The empty dependency array [] means this effect runs only ONCE and needs updating, when layerConfig changes
+  }, []); // empty dependency array [] means this effect runs only ONCE and needs updating, when layerConfig changes
 
   return (
     // box will occupy the full viewport heigh; flexbox for layout.
-    // Stack component is used to arrange items in a single direction (row or column)
+    // stack component is used to arrange items in a single direction (row or column)
     <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      {/* CssBaseline is an MUI component that normalizes styles across browsers. */}
+      {/* CssBaseline: normalizes styles across browsers */}
       <CssBaseline />
 
       <Header />
-      {/* 'sx={{ flexGrow: 1 }}' makes this stack fill all available space. */}
+      {/* sx={{ flexGrow: 1 }} makes this stack fill all available space. */}
       <Stack direction="row" sx={{ flexGrow: 1 }}>
         {/*sidebar */}
         <Box
@@ -150,6 +149,7 @@ function App() {
           sx={{ width: 240, borderRight: "1px solid", borderColor: "divider" }}
         >
           <Sidebar
+            currentView={currentView}
             onNavigateHome={() => setCurrentView("dashboard")}
             layers={layerConfig}
             onLayerChange={handleLayerConfigChange}

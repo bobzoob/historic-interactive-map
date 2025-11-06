@@ -2,7 +2,10 @@ import { Box, Button, Typography } from "@mui/material";
 import LayerControlPanel from "./LayerControlPanel";
 import type { LayerConfig } from "../App";
 
+type View = "dashboard" | "map";
+
 interface SidebarProps {
+  currentView: View;
   onNavigateHome: () => void;
   layers: LayerConfig[]; // array of different layers
   onLayerChange: (layerId: string, isVisible: boolean) => void;
@@ -10,6 +13,7 @@ interface SidebarProps {
 }
 
 function Sidebar({
+  currentView,
   onNavigateHome,
   layers,
   onLayerChange,
@@ -21,14 +25,16 @@ function Sidebar({
       <Button variant="text" onClick={onNavigateHome}>
         Home
       </Button>
-      <Box mt={4}>
-        {/* we render layers here */}
-        <LayerControlPanel
-          layers={layers}
-          onLayerChange={onLayerChange}
-          onLayerTooltipChange={onLayerTooltipChange}
-        />
-      </Box>
+      {currentView === "map" && (
+        <Box mt={4}>
+          {/* we render layers here */}
+          <LayerControlPanel
+            layers={layers}
+            onLayerChange={onLayerChange}
+            onLayerTooltipChange={onLayerTooltipChange}
+          />
+        </Box>
+      )}
     </Box>
   );
 }

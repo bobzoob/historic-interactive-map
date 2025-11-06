@@ -31,6 +31,7 @@ function LayerManager({
           layer.showAllTooltips
         }`;
 
+        //** add new layer type here: **
         switch (layer.type) {
           case "polygon":
             return (

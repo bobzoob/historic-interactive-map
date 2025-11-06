@@ -2,8 +2,8 @@ import { Box } from "@mui/material";
 import type { HistoricalFeatureCollection } from "../types/geojson";
 import type { LayerConfig, TimeRange } from "../App";
 import TimelineControl from "./TimelineControl";
-import MapWrapper from "./MapWrapper"; // <-- Import new component
-import LayerManager from "./LayerManager"; // <-- Import new component
+import MapWrapper from "./MapWrapper";
+import LayerManager from "./LayerManager";
 
 interface MapContainerProps {
   data: Record<string, HistoricalFeatureCollection> | null;

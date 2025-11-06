@@ -18,10 +18,10 @@ function TimelineControl({
     <Box
       sx={{
         position: "absolute",
-        bottom: 20, // 20px from the bottom
+        bottom: 20,
         left: "50%", // center horizontally
-        transform: "translateX(-50%)", // centering
-        width: "60%", // it will take up 60% of parents width
+        transform: "translateX(-50%)",
+        width: "60%",
         backgroundColor: "rgba(255, 255, 255, 0.9)",
         padding: 2,
         borderRadius: 2,
