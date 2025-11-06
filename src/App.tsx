@@ -11,6 +11,12 @@ export type TimeRange = [number, number]; // export= makes is accessible, somewh
 // views, the application can be in
 type View = "dashboard" | "map";
 
+export interface SearchState {
+  plainText: string;
+  sender: string;
+  recipient: string;
+}
+
 export interface LayerConfig {
   id: string;
   name: string;
@@ -18,6 +24,7 @@ export interface LayerConfig {
   type: "polygon" | "point" | "line"; // ** add new data types here **
   source: string; // the path of the data, aka: /my-data.geojson
   showAllTooltips: boolean;
+  search?: SearchState;
 }
 
 function App() {
@@ -57,8 +64,29 @@ function App() {
       type: "line",
       source: "/letters-data.geojson",
       showAllTooltips: false,
+
+      search: {
+        plainText: "",
+        sender: "",
+        recipient: "",
+      },
     },
   ]);
+
+  //for the search
+  const handleLayerSearchChange = (
+    layerId: string,
+    newSearchState: SearchState
+  ) => {
+    setLayerConfig((prevConfig) =>
+      prevConfig.map((layer) => {
+        if (layer.id === layerId) {
+          return { ...layer, search: newSearchState };
+        }
+        return layer;
+      })
+    );
+  };
 
   // for the timeline
 
@@ -154,6 +182,7 @@ function App() {
             layers={layerConfig}
             onLayerChange={handleLayerConfigChange}
             onLayerTooltipChange={handleLayerTooltipChange}
+            onLayerSearchChange={handleLayerSearchChange}
           />
         </Box>
 

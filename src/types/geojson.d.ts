@@ -7,6 +7,8 @@ export interface HistoricalFeatureProperties extends GeoJsonProperties {
   description: string;
   startDate: string; // ISO 8601 format "YYYY-MM-DD"
   endDate: string;
+  sender?: string;
+  recipient?: string;
 }
 
 // this is a generic TypeScript feature we create, that MUST have a geometry and MUST match the structure of the interface above

@@ -6,18 +6,21 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import type { LayerConfig } from "../App";
+import type { LayerConfig, SearchState } from "../App";
+import SearchForm from "./SearchForm";
 
 interface LayerControlPanelProps {
   layers: LayerConfig[];
   onLayerChange: (layerId: string, isVisible: boolean) => void;
   onLayerTooltipChange: (layerId: string, showAll: boolean) => void;
+  onLayerSearchChange: (layerId: string, newSearchState: SearchState) => void;
 }
 
 function LayerControlPanel({
   layers,
   onLayerChange,
   onLayerTooltipChange,
+  onLayerSearchChange,
 }: LayerControlPanelProps) {
   return (
     <Box>
@@ -60,6 +63,15 @@ function LayerControlPanel({
               label="show all tooltips"
             />
           </FormGroup>
+          {/* render SEARCH FORM  */}
+          {layer.search && (
+            <SearchForm
+              searchState={layer.search}
+              onSearchChange={(newSearchState) =>
+                onLayerSearchChange(layer.id, newSearchState)
+              }
+            />
+          )}
         </Box>
       ))}
     </Box>

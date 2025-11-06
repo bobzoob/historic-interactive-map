@@ -3,6 +3,7 @@ import type { LayerConfig, TimeRange } from "../App";
 import GeoJSONLayer from "./GeoJSONLayer";
 import PointLayer from "./PointLayer";
 import ArrowLayer from "./ArrowLayer";
+import { applyFilters } from "../utils/filterUtils";
 
 interface LayerManagerProps {
   layers: LayerConfig[];
@@ -26,6 +27,19 @@ function LayerManager({
           return null;
         }
 
+        const layerData = data[layer.id];
+        if (!layerData) return null;
+
+        //serach filter
+        const filteredFeatures = layerData.features.filter((feature) =>
+          applyFilters(feature, timeRange, layer.search)
+        );
+
+        const filteredData = {
+          ...layerData,
+          features: filteredFeatures,
+        };
+
         //fully dynamic key for ALL layer types: guarantees a re-render when the time or tooltip settings change
         const dynamicKey = `${layer.id}-${timeRange.join("-")}-${
           layer.showAllTooltips
@@ -37,35 +51,25 @@ function LayerManager({
             return (
               <GeoJSONLayer
                 key={dynamicKey}
-                data={data[layer.id]}
-                filter={featureFilter}
+                data={filteredData}
                 showAllTooltips={layer.showAllTooltips}
               />
             );
 
           case "point":
-            // pre-filter data for this component
-            const filteredPointData = {
-              ...data[layer.id],
-              features: data[layer.id].features.filter(featureFilter),
-            };
             return (
               <PointLayer
                 key={dynamicKey}
-                data={filteredPointData}
+                data={filteredData}
                 showAllTooltips={layer.showAllTooltips}
               />
             );
 
           case "line":
-            const filteredLineData = {
-              ...data[layer.id],
-              features: data[layer.id].features.filter(featureFilter),
-            };
             return (
               <ArrowLayer
                 key={dynamicKey}
-                data={filteredLineData}
+                data={filteredData}
                 showAllTooltips={layer.showAllTooltips}
               />
             );

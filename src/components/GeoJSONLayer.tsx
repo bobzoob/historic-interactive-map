@@ -8,10 +8,9 @@ import type { Layer } from "leaflet";
 interface GeoJSONLayerProps {
   data: HistoricalFeatureCollection;
   showAllTooltips: boolean;
-  filter: (feature: any) => boolean;
 }
 
-function GeoJSONLayer({ data, showAllTooltips, filter }: GeoJSONLayerProps) {
+function GeoJSONLayer({ data, showAllTooltips }: GeoJSONLayerProps) {
   // onEachFeature is a hook function by leaflet. it wil run once for every single feature in the GeoJSON data
   const onEachFeature = (feature: HistoricalFeature, layer: Layer) => {
     if (feature.properties) {
@@ -34,7 +33,6 @@ function GeoJSONLayer({ data, showAllTooltips, filter }: GeoJSONLayerProps) {
       // key={timeRangeKey.join("-")}
       data={data}
       onEachFeature={onEachFeature}
-      filter={filter}
     />
   );
 }
