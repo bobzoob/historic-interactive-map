@@ -9,15 +9,10 @@ interface LayerManagerProps {
   layers: LayerConfig[];
   data: Record<string, HistoricalFeatureCollection> | null;
   timeRange: TimeRange;
-  featureFilter: (feature: any) => boolean;
+  //featureFilter: (feature: any) => boolean;
 }
 
-function LayerManager({
-  layers,
-  data,
-  timeRange,
-  featureFilter,
-}: LayerManagerProps) {
+function LayerManager({ layers, data, timeRange }: LayerManagerProps) {
   if (!data) return null;
 
   return (

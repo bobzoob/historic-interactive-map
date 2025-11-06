@@ -22,16 +22,16 @@ function MapContainer({
   onTimeChangeCommitted,
   onTimeChangeLive,
 }: MapContainerProps) {
-  const featureFilter = (feature: any) => {
-    const featureStartYear = new Date(
-      feature.properties.startDate
-    ).getFullYear();
-    const featureEndYear = new Date(feature.properties.endDate).getFullYear();
-    const [selectedStartYear, selectedEndYear] = timeRange;
-    return (
-      featureStartYear <= selectedEndYear && featureEndYear >= selectedStartYear
-    );
-  };
+  // const featureFilter = (feature: any) => {
+  //   const featureStartYear = new Date(
+  //     feature.properties.startDate
+  //   ).getFullYear();
+  //   const featureEndYear = new Date(feature.properties.endDate).getFullYear();
+  //   const [selectedStartYear, selectedEndYear] = timeRange;
+  //   return (
+  //     featureStartYear <= selectedEndYear && featureEndYear >= selectedStartYear
+  //   );
+  // };
 
   return (
     <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
@@ -40,7 +40,7 @@ function MapContainer({
           layers={layers}
           data={data}
           timeRange={timeRange}
-          featureFilter={featureFilter}
+          // featureFilter={featureFilter}
         />
       </MapWrapper>
       <TimelineControl
